@@ -1,54 +1,71 @@
 public class ArbolInventario {
 
+    // Nodo principal del árbol
     Producto raiz;
 
     public ArbolInventario() {
         raiz = null;
     }
-  public void insertar(int id, String nombre) {
-    raiz = insertarRecursivo(raiz, id, nombre);
-}  
-private Producto insertarRecursivo(Producto actual, int id, String nombre) {
 
-    if (actual == null) {
-        return new Producto(id, nombre);
+    // Inserta un producto de forma recursiva
+    public void insertar(int id, String nombre) {
+        raiz = insertarRecursivo(raiz, id, nombre);
     }
 
-    if (id < actual.id) {
-        actual.izquierdo = insertarRecursivo(actual.izquierdo, id, nombre);
-    } else if (id > actual.id) {
-        actual.derecho = insertarRecursivo(actual.derecho, id, nombre);
-    }
+    private Producto insertarRecursivo(Producto actual, int id, String nombre) {
 
-    return actual;
-}
-public void mostrarInventario() {
-    inorden(raiz);
-}
-private void inorden(Producto actual) {
+        // Si encontramos un espacio vacío, creamos el nuevo nodo
+        if (actual == null) {
+            return new Producto(id, nombre);
+        }
 
-    if (actual != null) {
+        // Los ID menores van hacia la izquierda
+        if (id < actual.id) {
+            actual.izquierdo = insertarRecursivo(actual.izquierdo, id, nombre);
 
-        inorden(actual.izquierdo);
+        // Los ID mayores van hacia la derecha
+        } else if (id > actual.id) {
+            actual.derecho = insertarRecursivo(actual.derecho, id, nombre);
+        }
 
-        System.out.println("ID: " + actual.id + " - Nombre: " + actual.nombre);
-
-        inorden(actual.derecho);
-    }
-}
-public Producto buscar(int id) {
-    return buscarRecursivo(raiz, id);
-}
-private Producto buscarRecursivo(Producto actual, int id) {
-
-    if (actual == null || actual.id == id) {
         return actual;
     }
 
-    if (id < actual.id) {
-        return buscarRecursivo(actual.izquierdo, id);
+    // Muestra los productos ordenados por ID
+    public void mostrarInventario() {
+        inorden(raiz);
     }
 
-    return buscarRecursivo(actual.derecho, id);
-}
+    // Recorrido izquierda - raíz - derecha
+    private void inorden(Producto actual) {
+
+        if (actual != null) {
+
+            inorden(actual.izquierdo);
+
+            System.out.println(
+                "ID: " + actual.id + " - Nombre: " + actual.nombre
+            );
+
+            inorden(actual.derecho);
+        }
+    }
+
+    // Busca un producto por su ID
+    public Producto buscar(int id) {
+        return buscarRecursivo(raiz, id);
+    }
+
+    private Producto buscarRecursivo(Producto actual, int id) {
+
+        if (actual == null || actual.id == id) {
+            return actual;
+        }
+
+        if (id < actual.id) {
+            return buscarRecursivo(actual.izquierdo, id);
+        }
+
+        return buscarRecursivo(actual.derecho, id);
+    }
 }
