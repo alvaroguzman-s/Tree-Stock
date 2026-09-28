@@ -11,6 +11,7 @@ public class Main {
 
         do {
 
+            // Menu principal del sistema
             System.out.println("\n===== TREE-STOCK =====");
             System.out.println("1. Registrar Producto");
             System.out.println("2. Mostrar Inventario");
